@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.martin.econome.ChartsActivity"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="4"
+        android:id="@+id/tabs"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/summary"
+            android:background="@drawable/defaulttoggle"
+            android:layout_weight="1"
+            android:textOff="Summary"
+            android:textOn="Summary"
+            android:onClick="toSummary"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/incomesandexpenses"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:checked="false"
+            android:background="@drawable/defaulttoggle"
+            android:textOn="Income &amp; Expenses"
+            android:textOff="Income &amp; Expenses"
+            android:onClick="toTransactions"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/charts"
+            android:layout_weight="1"
+            android:background="@drawable/defaulttoggle"
+            android:textOff="Charts"
+            android:textOn="Charts"
+            android:checked="true"
+            android:onClick="chartsClicked"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/history"
+            android:layout_weight="1"
+            android:background="@drawable/defaulttoggle"
+            android:textOn="History"
+            android:textOff="History"
+            android:onClick="toHistory"
+            android:textSize="9dp" />
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@+id/tabs"
+        android:layout_above="@+id/charttype" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="15"
+        android:id="@+id/monthlayout"
+        android:background="#80ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;"
+            android:id="@+id/previousmonth"
+            android:layout_weight="3"
+            android:onClick="decreaseMonth"
+            android:background="#00ffffff" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthspinner"
+            android:layout_weight="9"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:id="@+id/nextmonth"
+            android:layout_weight="3"
+            android:onClick="increaseMonth"
+            android:background="#00ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:weightSum="2"
+        android:layout_above="@+id/monthlayout"
+        android:id="@+id/charttype">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/pie"
+            android:background="@drawable/defaulttoggle"
+            android:layout_weight="1"
+            android:checked="true"
+            android:textOff="Pie"
+            android:textOn="Pie"
+            android:onClick="pie" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/bar"
+            android:background="@drawable/defaulttoggle"
+            android:layout_weight="1"
+            android:textOff="Bar"
+            android:textOn="Bar"
+            android:onClick="bar" />
+    </LinearLayout>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.github.mikephil.charting.charts.BarChart"
+        android:id="@+id/barchart"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tabs"
+        android:layout_above="@+id/charttype"
+        android:visibility="invisible"
+        android:background="#a0000000" />
+</RelativeLayout>

@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TransactionsActivity"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:weightSum="15"
+        android:id="@+id/monthlayout"
+        android:background="#80ffffff">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;"
+            android:id="@+id/prevmonth"
+            android:layout_weight="3"
+            android:onClick="decreaseMonth"
+            android:background="#00ffffff" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthspinner"
+            android:layout_weight="9"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:id="@+id/nextmonth"
+            android:layout_weight="3"
+            android:onClick="increaseMonth"
+            android:background="#00ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/monthlayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/addbuttons"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Income"
+            android:id="@+id/addincome"
+            android:layout_weight="1"
+            android:onClick="add"
+            android:background="@drawable/defaultbutton" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Expense"
+            android:id="@+id/addexpense"
+            android:layout_weight="1"
+            android:onClick="add"
+            android:background="@drawable/defaultbutton" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactionslistview"
+        android:layout_above="@+id/addbuttons"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="false"
+        android:background="#80ffffff"
+        android:layout_below="@+id/tabs" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:weightSum="4"
+        android:id="@+id/tabs">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/summary"
+            android:layout_weight="1"
+            android:background="@drawable/defaulttoggle"
+            android:textOff="Summary"
+            android:textOn="Summary"
+            android:onClick="toSummary"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/incomesandexpenses"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:checked="true"
+            android:background="@drawable/defaulttoggle"
+            android:onClick="ieClicked"
+            android:layout_below="@+id/tabs"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textOff="Income &amp; Expenses"
+            android:textOn="Income &amp; Expenses"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/charts"
+            android:layout_weight="1"
+            android:background="@drawable/defaulttoggle"
+            android:onClick="toCharts"
+            android:textOff="Charts"
+            android:textOn="Charts"
+            android:textSize="9dp" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/history"
+            android:layout_weight="1"
+            android:background="@drawable/defaulttoggle"
+            android:textOff="History"
+            android:textOn="History"
+            android:onClick="toHistory"
+            android:textSize="9dp" />
+    </LinearLayout>
+
+</RelativeLayout>

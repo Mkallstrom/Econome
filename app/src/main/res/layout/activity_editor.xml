@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.martin.econome.EditorActivity"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:weightSum="2"
+        android:id="@+id/linearLayout">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/income"
+            android:layout_weight="1"
+            android:textOff="Income"
+            android:textOn="Income"
+            android:onClick="toggleIncome"
+            android:alpha="1"
+            android:background="@drawable/defaulttoggle" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/expense"
+            android:checked="true"
+            android:layout_weight="1"
+            android:textOff="Expense"
+            android:textOn="Expense"
+            android:onClick="toggleExpense"
+            android:alpha="1"
+            android:background="@drawable/defaulttoggle" />
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/categoryspinner"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:background="#80ffffff"
+        android:textAlignment="center"
+        android:drawSelectorOnTop="true"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:inputType="numberDecimal"
+        android:id="@+id/amount"
+        android:background="#80ffffff"
+        android:ems="10"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@+id/categoryspinner"
+        android:layout_alignLeft="@+id/categoryspinner"
+        android:layout_alignStart="@+id/categoryspinner"
+        android:textAlignment="center" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repeating"
+        android:id="@+id/repeatingbox"
+        android:onClick="repeating"
+        android:layout_above="@+id/frequencyspinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frequencyspinner"
+        android:background="#80ffffff"
+        android:visibility="invisible"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="Save"
+        android:id="@+id/button"
+        android:onClick="Save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/defaultbutton" />
+
+</RelativeLayout>
