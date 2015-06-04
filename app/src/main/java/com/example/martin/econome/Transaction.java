@@ -18,6 +18,9 @@ public class Transaction implements Comparable<Transaction> {
     private TransactionType type;
     private String key;
 
+    private int month;
+    private int year;
+
     public Transaction(float amount, String category, String date, boolean repeating, String frequency, TransactionType type, String key){
         this.amount = amount;
         this.category = category;
@@ -26,10 +29,32 @@ public class Transaction implements Comparable<Transaction> {
         this.frequency = frequency;
         this.type = type;
         this.key = key;
+        this.year = Integer.parseInt(date.substring(0,4));
+        this.month = Integer.parseInt(date.substring(5,7));
     }
 
     public float getAmount() {
         return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public void setAmount(int amount) {

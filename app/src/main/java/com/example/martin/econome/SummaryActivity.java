@@ -41,7 +41,6 @@ public class SummaryActivity extends ActionBarActivity {
     private Spinner monthSpinner;
     private ArrayList<String> categories;
     private int month = 0;
-    int loading = 0;
     private Context context;
 
     private SimpleDateFormat myFormat;
@@ -57,6 +56,7 @@ public class SummaryActivity extends ActionBarActivity {
         bgc = (BackgroundClass) getApplicationContext();
         bgc.initiate();
         myFormat = new SimpleDateFormat("MMM yyyy");
+        monthSpinner = (Spinner) findViewById(R.id.monthspinner);
         fillSpinner();
         context = this;
 
@@ -68,23 +68,10 @@ public class SummaryActivity extends ActionBarActivity {
         summaryListView = (ListView) findViewById(R.id.summaries);
         specificsListView = (ListView) findViewById(R.id.specifics);
 
-        monthSpinner = (Spinner) findViewById(R.id.monthspinner);
-
         summaries = new ArrayList<>();
         specifics = new ArrayList<>();
         transactionList = bgc.getAllTransactions();
-        categories = new ArrayList<>();
-
-        categories.add("Salary");
-        categories.add("Other");
-        categories.add("Food");
-        categories.add("Phone");
-        categories.add("Transportation");
-        categories.add("Rent");
-        categories.add("Eating Out");
-        categories.add("Clothes");
-        categories.add("Hobbies");
-        categories.add("Misc");
+        categories = bgc.getCategories();
 
         progressDialog = new ProgressDialog(SummaryActivity.this);
         progressDialog.setTitle("Summary");
@@ -106,8 +93,20 @@ public class SummaryActivity extends ActionBarActivity {
             public void onDismiss(DialogInterface arg0) {
                 summaryListView.setAdapter(summaryAdapter);
                 specificsListView.setAdapter(specificsAdapter);
+                monthSpinner.setOnItemSelectedListener(
+                        new AdapterView.OnItemSelectedListener() {
+                            public void onItemSelected(
+                                    AdapterView<?> parent, View view, int position, long id) {
+                                Log.d("spinner", "triggered");
+                                updateLists();
+                            }
+
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
             }
         });
+
     }
 
     private void updateLists(){
@@ -123,10 +122,10 @@ public class SummaryActivity extends ActionBarActivity {
 
 
         specifics.clear();
+        Log.d("updateLists",Integer.toString(categories.size()));
         for(String category : categories)
         {
             specifics.add(new TitledFloat(getSpecifics(monthSpinner.getSelectedItem().toString(),category),getAverageSpecifics(category),category));
-            loading+=1;
         }
         specificsAdapter = new SummariesArrayAdapter(context,R.layout.summarylayout, specifics);
 
@@ -273,20 +272,10 @@ public class SummaryActivity extends ActionBarActivity {
         Log.d("fillSpinner", "Start");
         ArrayAdapter<String> spinMonthAdapter =
                 new ArrayAdapter<>(this, R.layout.simple_spinner_item, bgc.getArrayListMonths());
-        Spinner spinMonth = (Spinner) findViewById(R.id.monthspinner);
-        spinMonth.setAdapter(spinMonthAdapter);
+        monthSpinner.setAdapter(spinMonthAdapter);
         Intent intent = getIntent();
-        if(intent.hasExtra("Selection")) spinMonth.setSelection(intent.getIntExtra("Selection",0));
-        spinMonth.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(
-                            AdapterView<?> parent, View view, int position, long id) {
-                        updateLists();
-                    }
+        if(intent.hasExtra("Selection")) monthSpinner.setSelection(intent.getIntExtra("Selection",0));
 
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
         Log.d("fillSpinner", "Done");
     }
     public void increaseMonth(View view){

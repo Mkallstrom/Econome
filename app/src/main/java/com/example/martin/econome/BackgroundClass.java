@@ -19,6 +19,7 @@ public class BackgroundClass extends Application {
     private int index;
     private boolean firstRun = true;
     private ArrayList<String> arrayListMonths;
+    private ArrayList<String> categories;
 
     public void initiate(){
         if(!firstRun) return;
@@ -27,6 +28,17 @@ public class BackgroundClass extends Application {
         transactionSPEditor = transactionSP.edit();
         index = Integer.parseInt(transactionSP.getString("index", "0"));
         allTransactions = new ArrayList<>();
+        categories = new ArrayList<>();
+        categories.add("Salary");
+        categories.add("Other");
+        categories.add("Food");
+        categories.add("Phone");
+        categories.add("Transportation");
+        categories.add("Rent");
+        categories.add("Eating Out");
+        categories.add("Clothes");
+        categories.add("Hobbies");
+        categories.add("Misc");
         loadSharedPreferences();
 
         arrayListMonths = new ArrayList<>();
@@ -48,6 +60,14 @@ public class BackgroundClass extends Application {
                 }
             }
         }
+
+    public ArrayList<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<String> categories) {
+        this.categories = categories;
+    }
 
     private Transaction parseTransaction(String value, String key)
     {
