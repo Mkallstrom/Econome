@@ -71,7 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_below="@+id/tabs"
-        android:layout_above="@+id/charttype" />
+        android:layout_above="@+id/charttype"
+        android:background="#a0000000" />
 
     <LinearLayout
         android:orientation="horizontal"

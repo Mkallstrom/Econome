@@ -104,7 +104,7 @@ public class ChartsActivity extends ActionBarActivity {
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);
         l.setLabels(categories);
-        l.setTextColor(Color.BLACK);
+        l.setTextColor(Color.WHITE);
         pieChart.setHoleColor(Color.LTGRAY);
         pieChart.setDrawSliceText(false);
 
@@ -117,21 +117,23 @@ public class ChartsActivity extends ActionBarActivity {
         barChart.setDrawValueAboveBar(true);
         barChart.setDrawGridBackground(false);
 
-
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(false);
+        xAxis.setTextColor(Color.WHITE);
 
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setLabelCount(8);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
+        leftAxis.setTextColor(Color.WHITE);
 
         YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
         rightAxis.setLabelCount(8);
         rightAxis.setSpaceTop(15f);
+        rightAxis.setTextColor(Color.WHITE);
 
         Legend l = barChart.getLegend();
         l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
@@ -139,6 +141,7 @@ public class ChartsActivity extends ActionBarActivity {
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
+        l.setTextColor(Color.WHITE);
         l.setColors(colors);
     }
 
@@ -244,6 +247,7 @@ public class ChartsActivity extends ActionBarActivity {
 
         pieDataSet = new PieDataSet(entries, "");
         pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.BLACK);
         categories = addPercentages(categories,amounts,total);
 
         PieData data = new PieData(categories, pieDataSet);
@@ -270,6 +274,7 @@ public class ChartsActivity extends ActionBarActivity {
         BarData barData = new BarData(categories, barDataSets);
         barData.setGroupSpace(80f);
         barData.setValueTextSize(10f);
+        barData.setValueTextColor(Color.WHITE);
         barChart.setData(barData);
         barChart.fitScreen();
         barChart.zoom(4f, 1f, 0, 0);
