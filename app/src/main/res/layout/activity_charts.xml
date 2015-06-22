@@ -4,74 +4,13 @@
     tools:context="com.example.martin.econome.ChartsActivity"
     android:background="@drawable/background">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="4"
-        android:id="@+id/tabs"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/summary"
-            android:background="@drawable/defaulttoggle"
-            android:layout_weight="1"
-            android:textOff="Summary"
-            android:textOn="Summary"
-            android:onClick="toSummary"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/incomesandexpenses"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:checked="false"
-            android:background="@drawable/defaulttoggle"
-            android:textOn="Income &amp; Expenses"
-            android:textOff="Income &amp; Expenses"
-            android:onClick="toTransactions"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/charts"
-            android:layout_weight="1"
-            android:background="@drawable/defaulttoggle"
-            android:textOff="Charts"
-            android:textOn="Charts"
-            android:checked="true"
-            android:onClick="chartsClicked"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/history"
-            android:layout_weight="1"
-            android:background="@drawable/defaulttoggle"
-            android:textOn="History"
-            android:textOff="History"
-            android:onClick="toHistory"
-            android:textSize="9dp" />
-    </LinearLayout>
-
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_below="@+id/tabs"
-        android:layout_above="@+id/charttype" />
+        android:layout_above="@+id/charttype"
+        android:background="#a0000000" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -149,7 +88,6 @@
         android:id="@+id/barchart"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tabs"
         android:layout_above="@+id/charttype"
         android:visibility="invisible"
         android:background="#a0000000" />

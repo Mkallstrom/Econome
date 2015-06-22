@@ -49,11 +49,6 @@ public class TransactionsActivity extends ActionBarActivity {
         transactionList = new ArrayList<>();
         monthSpinner = (Spinner) findViewById(R.id.monthspinner);
 
-        ToggleButton chartsButton = (ToggleButton) findViewById(R.id.charts);
-        chartsButton.setChecked(false);
-        ToggleButton ieButton = (ToggleButton) findViewById(R.id.incomesandexpenses);
-        ieButton.setChecked(true);
-
         transactionListView = (ListView) findViewById(R.id.transactionslistview);
         transactionAdapter = new TransactionArrayAdapter(context,R.layout.transactionlayout, transactionList);
         transactionListView.setAdapter(transactionAdapter);

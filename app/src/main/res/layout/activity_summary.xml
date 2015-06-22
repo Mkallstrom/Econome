@@ -8,68 +8,6 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:weightSum="4"
-        android:id="@+id/tabs"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/summary"
-            android:layout_weight="1"
-            android:background="@drawable/defaulttoggle"
-            android:textOff="Summary"
-            android:textOn="Summary"
-            android:checked="true"
-            android:enabled="true"
-            android:onClick="summaryClicked"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/transactions"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:checked="false"
-            android:background="@drawable/defaulttoggle"
-            android:onClick="toTransactions"
-            android:textOff="Income &amp; Expenses"
-            android:textOn="Income &amp; Expenses"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/charts"
-            android:layout_weight="1"
-            android:background="@drawable/defaulttoggle"
-            android:onClick="toCharts"
-            android:textOff="Charts"
-            android:textOn="Charts"
-            android:textSize="9dp" />
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New ToggleButton"
-            android:id="@+id/history"
-            android:layout_weight="1"
-            android:background="@drawable/defaulttoggle"
-            android:textOff="History"
-            android:textOn="History"
-            android:onClick="toHistory"
-            android:textSize="9dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:weightSum="15"
         android:id="@+id/monthlayout"
         android:background="#80ffffff"
@@ -106,7 +44,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabs"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/monthlayout"
         android:weightSum="3"

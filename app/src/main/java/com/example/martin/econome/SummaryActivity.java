@@ -54,16 +54,10 @@ public class SummaryActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
         bgc = (BackgroundClass) getApplicationContext();
-        bgc.initiate();
         myFormat = new SimpleDateFormat("MMM yyyy");
         monthSpinner = (Spinner) findViewById(R.id.monthspinner);
         fillSpinner();
         context = this;
-
-        summaryToggleButton = (ToggleButton) findViewById(R.id.summary);
-        transactionsToggleButton = (ToggleButton) findViewById(R.id.transactions);
-        chartsToggleButton = (ToggleButton) findViewById(R.id.charts);
-        graphToggleButton = (ToggleButton) findViewById(R.id.history);
 
         summaryListView = (ListView) findViewById(R.id.summaries);
         specificsListView = (ListView) findViewById(R.id.specifics);

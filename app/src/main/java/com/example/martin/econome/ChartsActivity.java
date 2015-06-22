@@ -62,10 +62,6 @@ public class ChartsActivity extends ActionBarActivity {
         monthSpinner = (Spinner) findViewById(R.id.monthspinner);
         fillSpinner();
 
-        ToggleButton chartsButton = (ToggleButton) findViewById(R.id.charts);
-        chartsButton.setChecked(true);
-        ToggleButton ieButton = (ToggleButton) findViewById(R.id.incomesandexpenses);
-        ieButton.setChecked(false);
         pieToggleButton = (ToggleButton) findViewById(R.id.pie);
         barToggleButton = (ToggleButton) findViewById(R.id.bar);
 
@@ -104,10 +100,9 @@ public class ChartsActivity extends ActionBarActivity {
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);
         l.setLabels(categories);
-        l.setTextColor(Color.BLACK);
+        l.setTextColor(Color.WHITE);
         pieChart.setHoleColor(Color.LTGRAY);
         pieChart.setDrawSliceText(false);
-
     }
 
     private void initiateBarChart(){
@@ -117,27 +112,30 @@ public class ChartsActivity extends ActionBarActivity {
         barChart.setDrawValueAboveBar(true);
         barChart.setDrawGridBackground(false);
 
-
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(false);
+        xAxis.setTextColor(Color.WHITE);
 
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setLabelCount(8);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
+        leftAxis.setTextColor(Color.WHITE);
 
         YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
         rightAxis.setLabelCount(8);
         rightAxis.setSpaceTop(15f);
+        rightAxis.setTextColor(Color.WHITE);
 
         Legend l = barChart.getLegend();
         l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
         l.setForm(Legend.LegendForm.SQUARE);
         l.setFormSize(9f);
         l.setTextSize(11f);
+        l.setTextColor(Color.WHITE);
         l.setXEntrySpace(4f);
         l.setColors(colors);
     }
@@ -230,7 +228,7 @@ public class ChartsActivity extends ActionBarActivity {
                     amounts.set(6, new Float(amounts.get(6)+i.getAmount()));
                     break;
                 case "Misc":
-                    amounts.set(7, new Float(amounts.get(6)+i.getAmount()));
+                    amounts.set(7, new Float(amounts.get(7)+i.getAmount()));
             }
         }
         float total = 0;
@@ -270,6 +268,7 @@ public class ChartsActivity extends ActionBarActivity {
         BarData barData = new BarData(categories, barDataSets);
         barData.setGroupSpace(80f);
         barData.setValueTextSize(10f);
+        barData.setValueTextColor(Color.WHITE);
         barChart.setData(barData);
         barChart.fitScreen();
         barChart.zoom(4f, 1f, 0, 0);

@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.martin.econome.MainActivity"
+    android:background="@drawable/background"
+    android:gravity="center_vertical|center_horizontal">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:rowOrderPreserved="false"
+        android:useDefaultMargins="false">
+
+    </GridLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/summaryButton"
+                android:src="@drawable/sumbuttonu"
+                android:onClick="toSummary"
+                android:scaleType="fitCenter"
+                android:background="@drawable/defaultbutton"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/transactionsButton"
+                android:layout_toStartOf="@+id/transactionsButton"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/transactionsButton"
+                android:src="@drawable/trabuttonu"
+                android:onClick="toTransactions"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/defaultbutton"
+                android:scaleType="fitCenter"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chartsButton"
+                android:src="@drawable/chabuttonu"
+                android:onClick="toCharts"
+                android:background="@drawable/defaultbutton"
+                android:scaleType="fitCenter"
+                android:layout_below="@+id/summaryButton"
+                android:layout_alignStart="@+id/summaryButton"
+                android:layout_alignLeft="@+id/summaryButton"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/historyButton"
+                android:src="@drawable/hisbuttonu"
+                android:onClick="toHistory"
+                android:background="@drawable/defaultbutton"
+                android:scaleType="fitCenter"
+                android:layout_alignTop="@+id/chartsButton"
+                android:layout_toRightOf="@+id/chartsButton"
+                android:layout_toEndOf="@+id/chartsButton"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
