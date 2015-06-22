@@ -137,6 +137,7 @@ public class ChartsActivity extends ActionBarActivity {
         l.setTextSize(11f);
         l.setTextColor(Color.WHITE);
         l.setXEntrySpace(4f);
+        l.setTextColor(Color.WHITE);
         l.setColors(colors);
     }
 
@@ -242,6 +243,7 @@ public class ChartsActivity extends ActionBarActivity {
 
         pieDataSet = new PieDataSet(entries, "");
         pieDataSet.setColors(colors);
+        pieDataSet.setValueTextColor(Color.BLACK);
         categories = addPercentages(categories,amounts,total);
 
         PieData data = new PieData(categories, pieDataSet);

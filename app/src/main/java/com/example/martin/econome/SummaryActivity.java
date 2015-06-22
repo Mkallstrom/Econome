@@ -93,6 +93,8 @@ public class SummaryActivity extends ActionBarActivity {
                                     AdapterView<?> parent, View view, int position, long id) {
                                 Log.d("spinner", "triggered");
                                 updateLists();
+                                summaryListView.setAdapter(summaryAdapter);
+                                specificsListView.setAdapter(specificsAdapter);
                             }
 
                             public void onNothingSelected(AdapterView<?> parent) {
@@ -112,7 +114,7 @@ public class SummaryActivity extends ActionBarActivity {
         summaries.add(new TitledFloat(summariesAmounts[1], summariesAverages[1], "Incomes"));
         summaries.add(new TitledFloat(summariesAmounts[1]-summariesAmounts[0], summariesAverages[2], "Total"));
 
-        summaryAdapter = new SummariesArrayAdapter(context,R.layout.summarylayout, summaries);
+        summaryAdapter = new SummariesArrayAdapter(context, R.layout.summarylayout, summaries);
 
 
         specifics.clear();
@@ -122,7 +124,6 @@ public class SummaryActivity extends ActionBarActivity {
             specifics.add(new TitledFloat(getSpecifics(monthSpinner.getSelectedItem().toString(),category),getAverageSpecifics(category),category));
         }
         specificsAdapter = new SummariesArrayAdapter(context,R.layout.summarylayout, specifics);
-
         Log.d("updateLists", "Done");
         }
 
