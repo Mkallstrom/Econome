@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -194,23 +193,4 @@ public class HistoryActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void historyClicked(View view){
-        ToggleButton tb = (ToggleButton) view;
-        tb.setChecked(true);
-    }
-    public void toTransactions(View view){
-        Intent intent = new Intent(this,TransactionsActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toCharts(View view){
-        Intent intent = new Intent(this,ChartsActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toSummary(View view){
-        Intent intent = new Intent(this,SummaryActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
 }

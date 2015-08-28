@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -261,24 +260,5 @@ public class TransactionsActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         return false;
-    }
-    public void toCharts(View view){
-        Intent intent = new Intent(this, ChartsActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toSummary(View view){
-        Intent intent = new Intent(this, SummaryActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toHistory(View view){
-        Intent intent = new Intent(this, HistoryActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void ieClicked(View view){
-        ToggleButton button = (ToggleButton) view;
-        button.setChecked(true);
     }
 }

@@ -20,6 +20,7 @@ public class BackgroundClass extends Application {
     private boolean firstRun = true;
     private ArrayList<String> arrayListMonths;
     private ArrayList<String> categories;
+    private boolean processing = false;
 
     public void initiate(){
         if(!firstRun) return;
@@ -65,6 +66,14 @@ public class BackgroundClass extends Application {
         return categories;
     }
 
+    public boolean isProcessing() {
+        return processing;
+    }
+
+    public void setProcessing(boolean processing) {
+        this.processing = processing;
+    }
+
     public void setCategories(ArrayList<String> categories) {
         this.categories = categories;
     }
@@ -85,13 +94,14 @@ public class BackgroundClass extends Application {
         transactionSPEditor.commit();
     }
     public void remove(Transaction transaction){
-        allTransactions.remove(transaction);
+        allTransactions.remove(getTransaction(transaction.getKey()));
         transactionSPEditor.remove(transaction.getKey());
         transactionSPEditor.commit();
     }
     public ArrayList<Transaction> getAllTransactions(){
         return allTransactions;
     }
+
     public Transaction getTransaction(String key){
         for(Transaction transaction : allTransactions){
             if(transaction.getKey().equals(key)) return transaction;

@@ -72,7 +72,8 @@ public class EditorActivity extends ActionBarActivity {
         fillSpinner();
 
         Intent myIntent = getIntent();
-        boolean newTransaction = myIntent.getBooleanExtra("new", false);
+        newTransaction = myIntent.getBooleanExtra("new", false);
+        Log.d("Editor","New: " + Boolean.toString(newTransaction));
         if(newTransaction) {
             TransactionType type = TransactionType.valueOf(myIntent.getStringExtra("type"));
 
@@ -149,6 +150,7 @@ public class EditorActivity extends ActionBarActivity {
         boolean newRepeating = repeatingBox.isChecked();
         String newFrequency = frequencySpinner.getSelectedItem().toString();
         Transaction newTransactionItem = new Transaction(newAmount, newCategory, newDate, newRepeating, newFrequency, newType, key);
+        bgc.remove(newTransactionItem);
         bgc.add(newTransactionItem.getAmount(),newTransactionItem.getCategory(),newTransactionItem.getDate(),newTransactionItem.isRepeating(),newTransactionItem.getFrequency(),newTransactionItem.getType());
         finish();
     }

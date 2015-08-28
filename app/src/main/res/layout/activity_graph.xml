@@ -4,42 +4,6 @@
     tools:context="com.example.martin.econome.HistoryActivity"
     android:background="@drawable/background">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="15"
-        android:id="@+id/monthlayout"
-        android:background="#80ffffff"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:id="@+id/previousmonth"
-            android:layout_weight="3"
-            android:onClick="decreaseMonth"
-            android:background="#00ffffff" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/monthspinner"
-            android:layout_weight="9"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:id="@+id/nextmonth"
-            android:layout_weight="3"
-            android:onClick="increaseMonth"
-            android:background="#00ffffff" />
-    </LinearLayout>
-
     <view
         class="com.github.mikephil.charting.charts.LineChart"
         android:layout_width="wrap_content"
@@ -47,6 +11,5 @@
         android:id="@+id/graphChart"
         android:visibility="visible"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/monthlayout" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

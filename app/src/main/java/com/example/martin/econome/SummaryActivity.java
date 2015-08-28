@@ -115,7 +115,7 @@ public class SummaryActivity extends ActionBarActivity {
         summaries.add(new TitledFloat(summariesAmounts[1]-summariesAmounts[0], summariesAverages[2], "Total"));
 
         summaryAdapter = new SummariesArrayAdapter(context, R.layout.summarylayout, summaries);
-
+        summaryAdapter.notifyDataSetChanged();
 
         specifics.clear();
         Log.d("updateLists",Integer.toString(categories.size()));
@@ -124,6 +124,7 @@ public class SummaryActivity extends ActionBarActivity {
             specifics.add(new TitledFloat(getSpecifics(monthSpinner.getSelectedItem().toString(),category),getAverageSpecifics(category),category));
         }
         specificsAdapter = new SummariesArrayAdapter(context,R.layout.summarylayout, specifics);
+        specificsAdapter.notifyDataSetChanged();
         Log.d("updateLists", "Done");
         }
 
@@ -242,25 +243,6 @@ public class SummaryActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void summaryClicked(View view){
-        summaryToggleButton.setChecked(true);
-    }
-    public void toTransactions(View view){
-        Intent intent = new Intent(this,TransactionsActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toCharts(View view){
-        Intent intent = new Intent(this,ChartsActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
-    }
-    public void toHistory(View view){
-        Intent intent = new Intent(this,HistoryActivity.class);
-        intent.putExtra("Selection", monthSpinner.getSelectedItemPosition());
-        startActivity(intent);
     }
 
     private void fillSpinner() {
