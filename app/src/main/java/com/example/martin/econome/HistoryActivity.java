@@ -1,14 +1,10 @@
 package com.example.martin.econome;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -26,7 +22,6 @@ import java.util.Calendar;
 public class HistoryActivity extends ActionBarActivity {
 
     private ArrayList<Transaction> allTransactions;
-    private Spinner monthSpinner;
     private LineChart lineChart;
     private SimpleDateFormat myFormat;
 
@@ -38,10 +33,8 @@ public class HistoryActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
-        monthSpinner = (Spinner) findViewById(R.id.monthspinner);
         bgc = (BackgroundClass) getApplicationContext();
         myFormat = new SimpleDateFormat("MMM yyyy");
-        fillSpinner();
 
         allTransactions = bgc.getAllTransactions();
 
@@ -82,11 +75,12 @@ public class HistoryActivity extends ActionBarActivity {
         ArrayList<Entry> values2 = new ArrayList<Entry>();
         ArrayList<Entry> values3 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = monthSpinner.getCount()-1; i >= 0; i--) {
-            xVals.add((monthSpinner.getItemAtPosition(i)) + "");
-            values1.add(new Entry(getSummaries(monthSpinner.getItemAtPosition(i).toString())[0],monthSpinner.getCount()-1-i));
-            values2.add(new Entry(getSummaries(monthSpinner.getItemAtPosition(i).toString())[1],monthSpinner.getCount()-1-i));
-            values3.add(new Entry(getSummaries(monthSpinner.getItemAtPosition(i).toString())[2],monthSpinner.getCount()-1-i));
+        ArrayList months = bgc.getArrayListMonths();
+        for (int i = 9; i >= 0; i--) {
+            xVals.add((months.get(i)) + "");
+            values1.add(new Entry(getSummaries(months.get(i).toString())[0],months.size()-1-i));
+            values2.add(new Entry(getSummaries(months.get(i).toString())[1],months.size()-1-i));
+            values3.add(new Entry(getSummaries(months.get(i).toString())[2],months.size()-1-i));
         }
         LineDataSet set1 = new LineDataSet(values1, "Expenses");
         set1.setLineWidth(2.5f);
@@ -150,25 +144,6 @@ public class HistoryActivity extends ActionBarActivity {
         returned[1] = incomes;
         returned[2] = incomes-expenses;
         return returned;
-    }
-
-    public void increaseMonth(View view){
-        if(monthSpinner.getSelectedItemPosition() > 0)
-            monthSpinner.setSelection(monthSpinner.getSelectedItemPosition() - 1);
-    }
-
-    public void decreaseMonth(View view){
-        if(monthSpinner.getSelectedItemPosition() < monthSpinner.getAdapter().getCount()-1)
-            monthSpinner.setSelection(monthSpinner.getSelectedItemPosition() + 1);
-    }
-
-    private void fillSpinner() {
-        ArrayAdapter<String> spinMonthAdapter =
-                new ArrayAdapter<>(this, R.layout.simple_spinner_item, bgc.getArrayListMonths());
-        Spinner spinMonth = (Spinner) findViewById(R.id.monthspinner);
-        spinMonth.setAdapter(spinMonthAdapter);
-        Intent intent = getIntent();
-        if(intent.hasExtra("Selection")) spinMonth.setSelection(intent.getIntExtra("Selection",0));
     }
 
     @Override

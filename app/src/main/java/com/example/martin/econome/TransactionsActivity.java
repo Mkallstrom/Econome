@@ -85,8 +85,8 @@ public class TransactionsActivity extends ActionBarActivity {
 
         if(itemID == 1){
             bgc.remove(transactionList.get(info.position));
+            transactionList.remove(info.position);
             transactionAdapter.notifyDataSetChanged();
-
         }  else {return false;}
         return true;
     }

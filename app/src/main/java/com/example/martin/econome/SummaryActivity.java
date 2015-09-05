@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,11 +21,6 @@ import java.util.Calendar;
 
 
 public class SummaryActivity extends ActionBarActivity {
-
-    private ToggleButton summaryToggleButton;
-    private ToggleButton transactionsToggleButton;
-    private ToggleButton chartsToggleButton;
-    private ToggleButton graphToggleButton;
 
     private ListView summaryListView;
     private ListView specificsListView;
@@ -129,6 +123,7 @@ public class SummaryActivity extends ActionBarActivity {
         }
 
     private float getSpecifics(String monthYear, String category){
+        Log.d("getSpecifics", "Getting specifics");
         int month = 0;
         int year = 0;
         try {
@@ -148,10 +143,12 @@ public class SummaryActivity extends ActionBarActivity {
                 amount += t.getAmount();
             }
         }
+        Log.d("getSpecifics", "Done getting specifics");
         return amount;
     }
 
     private float getAverageSpecifics(String category){
+        Log.d("getAverages", "Getting averages");
         int count = 0;
         float amount = 0;
         for(int i = 0; i<monthSpinner.getAdapter().getCount(); i++){
@@ -162,6 +159,7 @@ public class SummaryActivity extends ActionBarActivity {
             }
         }
         if(count>0) amount = amount/count;
+        Log.d("getAverages", "Done getting averages");
         return amount;
     }
 
