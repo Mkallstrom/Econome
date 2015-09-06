@@ -32,7 +32,7 @@ public class HistoryActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
+        setContentView(R.layout.activity_history);
         bgc = (BackgroundClass) getApplicationContext();
         myFormat = new SimpleDateFormat("MMM yyyy");
 
@@ -126,12 +126,10 @@ public class HistoryActivity extends ActionBarActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-        Calendar cal = Calendar.getInstance();
         float expenses = 0;
         float incomes = 0;
         for (Transaction t : allTransactions) {
-            cal.setTime(t.getRealDate());
-            if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.YEAR) == year) {
+            if (t.getMonth()-1 == month && t.getYear() == year) {
                 if (t.getType() == TransactionType.EXPENSE) {
                     expenses += t.getAmount();
                 } else if (t.getType() == TransactionType.INCOME) {

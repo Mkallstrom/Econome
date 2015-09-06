@@ -51,13 +51,15 @@ public class BackgroundClass extends Application {
         }
     }
         private void loadSharedPreferences(){
+            Transaction newTransaction;
             Log.d("BGC","Loading shared preferences.");
             allTransactions.clear();
             Map<String,?> keys = transactionSP.getAll();
             for(Map.Entry<String,?> entry : keys.entrySet()){
                 if(!entry.getKey().equals("index"))
                 {
-                    allTransactions.add(parseTransaction(entry.getValue().toString(), entry.getKey()));
+                    newTransaction = parseTransaction(entry.getValue().toString(),entry.getKey());
+                    allTransactions.add(newTransaction);
                 }
             }
         }

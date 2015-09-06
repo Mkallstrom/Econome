@@ -31,10 +31,10 @@ public class SummaryActivity extends ActionBarActivity {
     private ArrayList<TitledFloat> summaries;
     private ArrayList<TitledFloat> specifics;
     private ArrayList<Transaction> transactionList;
+    private ArrayList<Transaction> transactionListThisMonth;
 
     private Spinner monthSpinner;
     private ArrayList<String> categories;
-    private int month = 0;
     private Context context;
 
     private SimpleDateFormat myFormat;
@@ -53,6 +53,8 @@ public class SummaryActivity extends ActionBarActivity {
         fillSpinner();
         context = this;
 
+        transactionListThisMonth = new ArrayList();
+
         summaryListView = (ListView) findViewById(R.id.summaries);
         specificsListView = (ListView) findViewById(R.id.specifics);
 
@@ -70,6 +72,7 @@ public class SummaryActivity extends ActionBarActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                getThisMonth(monthSpinner.getSelectedItem().toString());
                 updateLists();
                 progressDialog.dismiss();
             }
@@ -86,6 +89,7 @@ public class SummaryActivity extends ActionBarActivity {
                             public void onItemSelected(
                                     AdapterView<?> parent, View view, int position, long id) {
                                 Log.d("spinner", "triggered");
+                                getThisMonth(monthSpinner.getSelectedItem().toString());
                                 updateLists();
                                 summaryListView.setAdapter(summaryAdapter);
                                 specificsListView.setAdapter(specificsAdapter);
@@ -101,7 +105,7 @@ public class SummaryActivity extends ActionBarActivity {
 
     private void updateLists(){
         Log.d("updateLists", "Start");
-        float[]summariesAmounts = getSummaries(monthSpinner.getSelectedItem().toString());
+        float[]summariesAmounts = getSummaries();
         float[]summariesAverages = getAverageSummaries();
         summaries.clear();
         summaries.add(new TitledFloat(summariesAmounts[0], summariesAverages[0], "Expenses"));
@@ -112,83 +116,52 @@ public class SummaryActivity extends ActionBarActivity {
         summaryAdapter.notifyDataSetChanged();
 
         specifics.clear();
-        Log.d("updateLists",Integer.toString(categories.size()));
+        Log.d("updateLists", Integer.toString(categories.size()));
         for(String category : categories)
         {
-            specifics.add(new TitledFloat(getSpecifics(monthSpinner.getSelectedItem().toString(),category),getAverageSpecifics(category),category));
+            specifics.add(new TitledFloat(getSpecifics(category),getAverageSpecifics(category),category));
         }
         specificsAdapter = new SummariesArrayAdapter(context,R.layout.summarylayout, specifics);
         specificsAdapter.notifyDataSetChanged();
         Log.d("updateLists", "Done");
         }
 
-    private float getSpecifics(String monthYear, String category){
-        Log.d("getSpecifics", "Getting specifics");
-        int month = 0;
-        int year = 0;
-        try {
-            Calendar spinnerCal = Calendar.getInstance();
-            spinnerCal.setTime(myFormat.parse(monthYear));
-            month = spinnerCal.get(Calendar.MONTH);
-            year = spinnerCal.get(Calendar.YEAR);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
+    private float getSpecifics(String category){
         float amount = 0;
-        for (Transaction t : transactionList) {
-            cal.setTime(t.getRealDate());
-            if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.YEAR) == year && t.getCategory().equals(category)) {
+        for (Transaction t : transactionListThisMonth) {
+            if (t.getCategory().equals(category)) {
                 amount += t.getAmount();
             }
         }
-        Log.d("getSpecifics", "Done getting specifics");
         return amount;
     }
 
     private float getAverageSpecifics(String category){
-        Log.d("getAverages", "Getting averages");
         int count = 0;
         float amount = 0;
-        for(int i = 0; i<monthSpinner.getAdapter().getCount(); i++){
-            float newAmount = getSpecifics(monthSpinner.getItemAtPosition(i).toString(), category);
+        int spinnerCount = monthSpinner.getAdapter().getCount();
+        for(int i = 0; i<spinnerCount; i++){
+            getThisMonth(monthSpinner.getItemAtPosition(i).toString());
+            float newAmount = getSpecifics(category);
             if(newAmount>0){
                 amount+=newAmount;
                 count +=1;
             }
         }
         if(count>0) amount = amount/count;
-        Log.d("getAverages", "Done getting averages");
+        getThisMonth(monthSpinner.getSelectedItem().toString());
         return amount;
     }
 
-    private float[] getSummaries(String monthYear) {
-        int month = 0;
-        int year = 0;
-
-        try {
-            Calendar spinnerCal = Calendar.getInstance();
-            spinnerCal.setTime(myFormat.parse(monthYear));
-            month = spinnerCal.get(Calendar.MONTH);
-            year = spinnerCal.get(Calendar.YEAR);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        Calendar cal = Calendar.getInstance();
+    private float[] getSummaries() {
         float expenses = 0;
         float incomes = 0;
-        for (Transaction t : transactionList) {
-            cal.setTime(t.getRealDate());
-            if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.YEAR) == year) {
+        for (Transaction t : transactionListThisMonth) {
                 if (t.getType() == TransactionType.EXPENSE) {
                     expenses += t.getAmount();
                 } else if (t.getType() == TransactionType.INCOME) {
                     incomes += t.getAmount();
                 }
-            }
         }
         float[] returned = new float[2];
         returned[0] = expenses;
@@ -197,14 +170,15 @@ public class SummaryActivity extends ActionBarActivity {
     }
 
     private float[] getAverageSummaries(){
-        Log.d("getAverageSummaries", "Start");
         float averageExpenses = 0;
         float averageIncomes = 0;
         float averageTotal = 0;
         int months = 0;
+        int spinnerCount = monthSpinner.getAdapter().getCount();
         float[] sums;
-        for(int i = 0; i<monthSpinner.getAdapter().getCount(); i++){
-            sums = getSummaries((monthSpinner.getAdapter().getItem(i).toString()));
+        for(int i = 0; i<spinnerCount; i++){
+            getThisMonth(monthSpinner.getAdapter().getItem(i).toString());
+            sums = getSummaries();
             if(sums[0]>0 || sums[1]>0) {
                 averageExpenses+=sums[0];
                 averageIncomes+=sums[1];
@@ -212,11 +186,11 @@ public class SummaryActivity extends ActionBarActivity {
                 months++;
             }
         }
+        getThisMonth(monthSpinner.getSelectedItem().toString());
         float[] result = new float[3];
         result[0] = averageExpenses/months;
         result[1] = averageIncomes/months;
         result[2] = averageTotal/months;
-        Log.d("getAverageSummaries", "Done");
         return result;
     }
 
@@ -261,5 +235,32 @@ public class SummaryActivity extends ActionBarActivity {
     public void decreaseMonth(View view){
         if(monthSpinner.getSelectedItemPosition() < monthSpinner.getAdapter().getCount()-1)
             monthSpinner.setSelection(monthSpinner.getSelectedItemPosition() + 1);
+    }
+
+    private void getThisMonth(String monthYear) {
+        Log.d("getThisMonth", "Start");
+        Calendar cal = Calendar.getInstance();
+        int year = 0;
+        int month = 0;
+        try {
+            Log.d("getThisMonth", "Parsing monthYear transactions");
+            cal.setTime(myFormat.parse(monthYear));
+            Log.d("getThisMonth", "Getting month");
+            month = cal.get(Calendar.MONTH);
+            Log.d("getThisMonth", "Getting year");
+            year = cal.get(Calendar.YEAR);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        transactionListThisMonth.clear();
+        Log.d("getThisMonth", "Getting transactions");
+        for (Transaction t : transactionList) {
+            /*cal.setTime(t.getRealDate());
+            if (cal.get(Calendar.MONTH) == month && cal.get(Calendar.YEAR) == year)*/
+            if(t.getMonth()-1 == month && t.getYear() == year)
+                transactionListThisMonth.add(t);
+        }
+        Log.d("getThisMonth", "End");
     }
 }

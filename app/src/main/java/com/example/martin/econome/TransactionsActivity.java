@@ -233,32 +233,22 @@ public class TransactionsActivity extends ActionBarActivity {
 
     private void loadThisMonth(){
         transactionList.clear();
-        for(Transaction newTransaction : allTransactions){
-            try {
-                Date date = format.parse(newTransaction.getDate());
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                if(correctMonth(cal))
-                    transactionList.add(newTransaction);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        Collections.sort(transactionList);
-        transactionAdapter.notifyDataSetChanged();
-    }
-
-
-    private boolean correctMonth(Calendar cal){
+        int year = 0;
+        int month = 0;
         try {
             Calendar spinnerCal = Calendar.getInstance();
             spinnerCal.setTime(myFormat.parse(monthSpinner.getSelectedItem().toString()));
-            if(spinnerCal.get(Calendar.MONTH) == cal.get(Calendar.MONTH) && spinnerCal.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) return true;
+            year = spinnerCal.get(Calendar.YEAR);
+            month = spinnerCal.get(Calendar.MONTH);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        return false;
+        for(Transaction newTransaction : allTransactions){
+            if(newTransaction.getMonth()-1==month && newTransaction.getYear()==year)
+                transactionList.add(newTransaction);
+        }
+        Collections.sort(transactionList);
+        transactionAdapter.notifyDataSetChanged();
     }
 }

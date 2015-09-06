@@ -29,7 +29,6 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ChartsActivity extends ActionBarActivity {
     private ArrayList<Transaction> allTransactions;
@@ -299,30 +298,23 @@ public class ChartsActivity extends ActionBarActivity {
 
     private void loadThisMonth(){
         shownTransactions.clear();
-        for(Transaction newTransaction : allTransactions){
-                try {
-                    Date date = format.parse(newTransaction.getDate());
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    if(correctMonth(cal))
-                        shownTransactions.add(newTransaction);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-    private boolean correctMonth(Calendar cal){
+        int month = 0;
+        int year = 0;
         try {
             Calendar spinnerCal = Calendar.getInstance();
             spinnerCal.setTime(new SimpleDateFormat("MMM yyyy").parse(monthSpinner.getSelectedItem().toString()));
-            if(spinnerCal.get(Calendar.MONTH) == cal.get(Calendar.MONTH) && spinnerCal.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) return true;
+            month = spinnerCal.get(Calendar.MONTH);
+            year = spinnerCal.get(Calendar.YEAR);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        return false;
-    }
+        for(Transaction newTransaction : allTransactions){
+               if(newTransaction.getMonth()-1 == month && newTransaction.getYear() == year)
+                        shownTransactions.add(newTransaction);
+            }
+        }
+
 
     private void fillSpinner() {
         ArrayAdapter<String> spinMonthAdapter =
