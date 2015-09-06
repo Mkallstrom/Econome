@@ -129,7 +129,7 @@ public class HistoryActivity extends ActionBarActivity {
         float expenses = 0;
         float incomes = 0;
         for (Transaction t : allTransactions) {
-            if (t.getMonth()-1 == month && t.getYear() == year) {
+            if (t.getMonth()-2 == month && t.getYear() == year) {
                 if (t.getType() == TransactionType.EXPENSE) {
                     expenses += t.getAmount();
                 } else if (t.getType() == TransactionType.INCOME) {
