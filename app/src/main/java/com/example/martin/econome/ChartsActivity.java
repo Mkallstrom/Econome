@@ -246,6 +246,7 @@ public class ChartsActivity extends ActionBarActivity {
         categories = addPercentages(categories,amounts,total);
 
         PieData data = new PieData(categories, pieDataSet);
+        data.setValueTextSize(8);
         pieChart.clear();
         pieChart.setData(data);
 
@@ -268,7 +269,7 @@ public class ChartsActivity extends ActionBarActivity {
 
         BarData barData = new BarData(categories, barDataSets);
         barData.setGroupSpace(80f);
-        barData.setValueTextSize(10f);
+        barData.setValueTextSize(8);
         barData.setValueTextColor(Color.WHITE);
         barChart.setData(barData);
         barChart.fitScreen();

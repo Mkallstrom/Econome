@@ -110,6 +110,7 @@ public class HistoryActivity extends ActionBarActivity {
         //dataSets.get(0).setCircleColors(ColorTemplate.VORDIPLOM_COLORS);
 
         LineData data = new LineData(xVals, dataSets);
+        data.setValueTextSize(8);
         lineChart.setData(data);
         lineChart.invalidate();
     }

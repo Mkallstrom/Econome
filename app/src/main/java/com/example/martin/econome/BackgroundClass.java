@@ -28,6 +28,7 @@ public class BackgroundClass extends Application {
         transactionSP = getSharedPreferences("transactions",0);
         transactionSPEditor = transactionSP.edit();
         index = Integer.parseInt(transactionSP.getString("index", "0"));
+
         allTransactions = new ArrayList<>();
         categories = new ArrayList<>();
         categories.add("Salary");
@@ -55,6 +56,7 @@ public class BackgroundClass extends Application {
             Log.d("BGC","Loading shared preferences.");
             allTransactions.clear();
             Map<String,?> keys = transactionSP.getAll();
+
             for(Map.Entry<String,?> entry : keys.entrySet()){
                 if(!entry.getKey().equals("index"))
                 {
@@ -62,6 +64,31 @@ public class BackgroundClass extends Application {
                     allTransactions.add(newTransaction);
                 }
             }
+
+           /* try
+            {
+
+                File traceFile = new File(((Context)this).getExternalFilesDir(null), "Test.txt");
+                if (!traceFile.exists())
+                    traceFile.createNewFile();
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(traceFile, true));
+                for(Transaction transaction : allTransactions)
+                {
+                    writer.write(transaction.toString()+"|"+transaction.getKey()+"\r\n");
+                }
+                writer.close();
+
+                MediaScannerConnection.scanFile((Context) (this),
+                        new String[]{traceFile.toString()},
+                        null,
+                        null);
+
+            }
+            catch (IOException e)
+            {
+                Log.e("FileTest", "Unable to write to the TraceFile.txt file.");
+            }*/
         }
 
     public ArrayList<String> getCategories() {
