@@ -143,10 +143,8 @@ public class SummaryActivity extends ActionBarActivity {
         for(int i = 0; i<spinnerCount; i++){
             getThisMonth(monthSpinner.getItemAtPosition(i).toString());
             float newAmount = getSpecifics(category);
-            if(newAmount>0){
-                amount+=newAmount;
-                count +=1;
-            }
+            amount+=newAmount;
+            count +=1;
         }
         if(count>0) amount = amount/count;
         getThisMonth(monthSpinner.getSelectedItem().toString());
@@ -179,12 +177,11 @@ public class SummaryActivity extends ActionBarActivity {
         for(int i = 0; i<spinnerCount; i++){
             getThisMonth(monthSpinner.getAdapter().getItem(i).toString());
             sums = getSummaries();
-            if(sums[0]>0 || sums[1]>0) {
-                averageExpenses+=sums[0];
-                averageIncomes+=sums[1];
-                averageTotal+=sums[1]-sums[0];
-                months++;
-            }
+            averageExpenses+=sums[0];
+            averageIncomes+=sums[1];
+            averageTotal+=sums[1]-sums[0];
+            months++;
+
         }
         getThisMonth(monthSpinner.getSelectedItem().toString());
         float[] result = new float[3];

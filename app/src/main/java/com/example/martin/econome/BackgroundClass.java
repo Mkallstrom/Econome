@@ -4,9 +4,8 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -18,7 +17,7 @@ public class BackgroundClass extends Application {
     private ArrayList<Transaction> allTransactions;
     private int index;
     private boolean firstRun = true;
-    private ArrayList<String> arrayListMonths;
+    private ArrayList<MonthYear> arrayListMonths;
     private ArrayList<String> categories;
     private boolean processing = false;
 
@@ -41,16 +40,26 @@ public class BackgroundClass extends Application {
         categories.add("Clothes");
         categories.add("Hobbies");
         categories.add("Misc");
+        arrayListMonths = new ArrayList<>();
         loadSharedPreferences();
 
-        arrayListMonths = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
+
+        /*Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("MMM");
         for (int i = 0; i <= 10; i++) {
             arrayListMonths.add(format.format(calendar.getTime()) + " " + Integer.toString(calendar.get(Calendar.YEAR)));
             calendar.add(Calendar.MONTH, -1);
-        }
+        }*/
     }
+            private boolean arrayHasMY (ArrayList<MonthYear> array, MonthYear monthYear){
+            if(array.isEmpty()) return false;
+            for(MonthYear my : array){
+                if(my.toString().equals(monthYear.toString()))
+                    return true;
+            }
+            return false;
+        }
+
         private void loadSharedPreferences(){
             Transaction newTransaction;
             Log.d("BGC","Loading shared preferences.");
@@ -62,6 +71,13 @@ public class BackgroundClass extends Application {
                 {
                     newTransaction = parseTransaction(entry.getValue().toString(),entry.getKey());
                     allTransactions.add(newTransaction);
+                    Log.d("Loading SPs", "Added; " + newTransaction.toString());
+                    MonthYear monthYear = new MonthYear(newTransaction.getMonth()-1,newTransaction.getYear());
+                    if(!arrayHasMY(arrayListMonths, monthYear))
+                    {
+                        arrayListMonths.add(monthYear);
+                    }
+                    Collections.sort(arrayListMonths);
                 }
             }
 
@@ -90,6 +106,7 @@ public class BackgroundClass extends Application {
                 Log.e("FileTest", "Unable to write to the TraceFile.txt file.");
             }*/
         }
+
 
     public ArrayList<String> getCategories() {
         return categories;

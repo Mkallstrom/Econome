@@ -3,6 +3,7 @@ package com.example.martin.econome;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,7 +17,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class HistoryActivity extends ActionBarActivity {
@@ -75,13 +75,16 @@ public class HistoryActivity extends ActionBarActivity {
         ArrayList<Entry> values2 = new ArrayList<Entry>();
         ArrayList<Entry> values3 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
-        ArrayList months = bgc.getArrayListMonths();
-        for (int i = 9; i >= 0; i--) {
-            xVals.add((months.get(i)) + "");
-            values1.add(new Entry(getSummaries(months.get(i).toString())[0],months.size()-1-i));
-            values2.add(new Entry(getSummaries(months.get(i).toString())[1],months.size()-1-i));
-            values3.add(new Entry(getSummaries(months.get(i).toString())[2],months.size()-1-i));
+        ArrayList<MonthYear> months = bgc.getArrayListMonths();
+
+        for (int i = months.size()-1; i >= 0; i--) {
+            xVals.add((months.get(i).toString()) + "");
+            float[] summaries = getSummaries(months.get(i));
+            values1.add(new Entry(summaries[0],months.size()-i-1));
+            values2.add(new Entry(summaries[1],months.size()-i-1));
+            values3.add(new Entry(summaries[2],months.size()-i-1));
         }
+
         LineDataSet set1 = new LineDataSet(values1, "Expenses");
         set1.setLineWidth(2.5f);
         set1.setCircleSize(4f);
@@ -115,22 +118,14 @@ public class HistoryActivity extends ActionBarActivity {
         lineChart.invalidate();
     }
 
-    private float[] getSummaries(String monthYear) {
-        int month = 0;
-        int year = 0;
-        try {
-            Calendar spinnerCal = Calendar.getInstance();
-            spinnerCal.setTime(myFormat.parse(monthYear));
-            month = spinnerCal.get(Calendar.MONTH);
-            year = spinnerCal.get(Calendar.YEAR);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+    private float[] getSummaries(MonthYear monthYear) {
+        Log.d("getSummaries", "Getting summaries for: " + monthYear.toString());
+        int month = monthYear.getMonth();
+        int year = monthYear.getYear();
         float expenses = 0;
         float incomes = 0;
         for (Transaction t : allTransactions) {
-            if (t.getMonth()-2 == month && t.getYear() == year) {
+            if (t.getMonth()-1 == month && t.getYear() == year) {
                 if (t.getType() == TransactionType.EXPENSE) {
                     expenses += t.getAmount();
                 } else if (t.getType() == TransactionType.INCOME) {
@@ -142,6 +137,7 @@ public class HistoryActivity extends ActionBarActivity {
         returned[0] = expenses;
         returned[1] = incomes;
         returned[2] = incomes-expenses;
+        Log.d("getSummaries", "Summaries: " + incomes + "-" + expenses + "=" + (incomes-expenses));
         return returned;
     }
 
