@@ -42,7 +42,9 @@ public class ChartsActivity extends ActionBarActivity {
 
     private ArrayList<Entry> entries = new ArrayList<>();
     private ArrayList<Float> amounts = new ArrayList<>();
+    private ArrayList<Float> chartAmounts = new ArrayList<>();
     private ArrayList<String> categories = new ArrayList<>();
+    private ArrayList<String> chartCategories = new ArrayList<>();
     private ArrayList<Integer> colors = new ArrayList<>();
 
     private ToggleButton pieToggleButton;
@@ -232,10 +234,17 @@ public class ChartsActivity extends ActionBarActivity {
             }
         }
         float total = 0;
+        chartCategories.clear();
         for(int i = 0;i<=7;i++)
         {
-            entries.add(new Entry(amounts.get(i),i));
-            total+=amounts.get(i);
+            if(amounts.get(i)>0)
+            {
+                Log.d("Chart", "Adding: " + categories.get(i) + " with " + amounts.get(i));
+                entries.add(new Entry(amounts.get(i), i));
+                total += amounts.get(i);
+                chartCategories.add(categories.get(i));
+                chartAmounts.add(amounts.get(i));
+            }
 
         }
         pieChart.setCenterText(Float.toString(total));
@@ -243,9 +252,9 @@ public class ChartsActivity extends ActionBarActivity {
         pieDataSet = new PieDataSet(entries, "");
         pieDataSet.setColors(colors);
         pieDataSet.setValueTextColor(Color.BLACK);
-        categories = addPercentages(categories,amounts,total);
+        chartCategories = addPercentages(chartCategories,chartAmounts,total);
 
-        PieData data = new PieData(categories, pieDataSet);
+        PieData data = new PieData(chartCategories, pieDataSet);
         data.setValueTextSize(8);
         pieChart.clear();
         pieChart.setData(data);
