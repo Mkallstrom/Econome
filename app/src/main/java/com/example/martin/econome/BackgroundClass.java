@@ -4,16 +4,21 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
 /**
  * Created by Martin on 2015-05-27.
  */
 public class BackgroundClass extends Application {
-    private SharedPreferences transactionSP;
-    private SharedPreferences.Editor transactionSPEditor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
     private ArrayList<Transaction> allTransactions;
     private int index;
     private boolean firstRun = true;
@@ -24,9 +29,10 @@ public class BackgroundClass extends Application {
     public void initiate(){
         if(!firstRun) return;
         firstRun = false;
-        transactionSP = getSharedPreferences("transactions",0);
-        transactionSPEditor = transactionSP.edit();
-        index = Integer.parseInt(transactionSP.getString("index", "0"));
+
+        sharedPreferences = getSharedPreferences("transactions",0);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        index = Integer.parseInt(sharedPreferences.getString("index", "0"));
 
         allTransactions = new ArrayList<>();
         categories = new ArrayList<>();
@@ -61,24 +67,69 @@ public class BackgroundClass extends Application {
         }
 
         private void loadSharedPreferences(){
-            Transaction newTransaction;
-            Log.d("BGC","Loading shared preferences.");
-            allTransactions.clear();
-            Map<String,?> keys = transactionSP.getAll();
+            /*
+            Transaction writeTransaction;
+            Log.d("BGC", "Loading shared preferences.");
 
-            for(Map.Entry<String,?> entry : keys.entrySet()){
-                if(!entry.getKey().equals("index"))
-                {
-                    newTransaction = parseTransaction(entry.getValue().toString(),entry.getKey());
-                    allTransactions.add(newTransaction);
-                    Log.d("Loading SPs", "Added; " + newTransaction.toString());
-                    MonthYear monthYear = new MonthYear(newTransaction.getMonth()-1,newTransaction.getYear());
-                    if(!arrayHasMY(arrayListMonths, monthYear))
+            try {
+                Log.d("LSP", "Attempting to open file output");
+                OutputStream outputStream = openFileOutput("transactions.txt", MODE_PRIVATE);
+                Log.d("LSP", "Opened file output");
+                OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+                BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+
+
+                Map<String,?> keys = sharedPreferences.getAll();
+
+                for(Map.Entry<String,?> entry : keys.entrySet()){
+                    if(!entry.getKey().equals("index"))
                     {
-                        arrayListMonths.add(monthYear);
+                        writeTransaction = parseTransaction(entry.getValue().toString(),entry.getKey());
+                        bufferedWriter.newLine();
+                        Log.d("LSP", "Writing to output: " + writeTransaction.toString());
+                        bufferedWriter.write(writeTransaction.toString()+"|"+writeTransaction.getKey());
                     }
-                    Collections.sort(arrayListMonths);
                 }
+                bufferedWriter.close();
+                writer.close();
+                outputStream.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            */
+            try {
+                InputStream inputStream = openFileInput("transactions.txt");
+                Log.d("LSP", "Opened input.");
+                Transaction newTransaction;
+                if ( inputStream != null ) {
+                    Log.d("LSP", "inputStream != null");
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    if(inputStreamReader == null) Log.d("LSP", "NULL INPUTSTREAMREADER");
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    if(bufferedReader == null) Log.d("LSP", "NULL BUFFEREDREADER");
+                    String receiveString = "";
+                    Log.d("LSP", "Starting reading");
+
+                    while ( (receiveString = bufferedReader.readLine()) != null ) {
+                        Log.d("LSP", "Read: " + receiveString);
+                        if(receiveString.length() > 0) {
+                            newTransaction = parseTransaction(receiveString);
+                            allTransactions.add(newTransaction);
+                            MonthYear monthYear = new MonthYear(newTransaction.getMonth() - 1, newTransaction.getYear());
+                            if (!arrayHasMY(arrayListMonths, monthYear)) {
+                                arrayListMonths.add(monthYear);
+                            }
+                            Collections.sort(arrayListMonths);
+                        }
+                    }
+                    bufferedReader.close();
+                    inputStreamReader.close();
+                    inputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
            /* try
@@ -130,19 +181,40 @@ public class BackgroundClass extends Application {
         return new Transaction(Float.parseFloat(splitString[0]),splitString[1],splitString[2],Boolean.valueOf(splitString[3]),splitString[4],TransactionType.valueOf(splitString[5]),key);
     }
 
+    private Transaction parseTransaction(String value)
+    {
+        String[] splitString = value.split("\\|");
+        return new Transaction(Float.parseFloat(splitString[0]),splitString[1],splitString[2],Boolean.valueOf(splitString[3]),splitString[4],TransactionType.valueOf(splitString[5]),splitString[6]);
+    }
     public void add(float amount, String category, String date, boolean repeating, String frequency, TransactionType type){
         Transaction transaction = new Transaction(amount, category, date, repeating, frequency, type, Integer.toString(index));
         allTransactions.add(transaction);
-        transactionSPEditor.putString(Integer.toString(index), transaction.toString());
-        transactionSPEditor.remove("index");
         index++;
-        transactionSPEditor.putString("index", Integer.toString(index));
-        transactionSPEditor.commit();
+        try {
+            OutputStream outputStream = openFileOutput("transactions.txt", MODE_APPEND);
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            bufferedWriter.newLine();
+            bufferedWriter.write(transaction.toString()+"|"+transaction.getKey());
+            bufferedWriter.close();
+            writer.close();
+            outputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*
+        sharedPreferencesEditor.putString(Integer.toString(index), transaction.toString());
+        sharedPreferencesEditor.remove("index");
+        index++;
+        sharedPreferencesEditor.putString("index", Integer.toString(index));
+        sharedPreferencesEditor.commit();
+        */
     }
     public void remove(Transaction transaction){
         allTransactions.remove(getTransaction(transaction.getKey()));
-        transactionSPEditor.remove(transaction.getKey());
-        transactionSPEditor.commit();
+        sharedPreferencesEditor.remove(transaction.getKey());
+        sharedPreferencesEditor.commit();
     }
     public ArrayList<Transaction> getAllTransactions(){
         return allTransactions;
