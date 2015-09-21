@@ -6,12 +6,12 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * Created by Martin on 2015-05-27.
@@ -66,19 +66,10 @@ public class BackgroundClass extends Application {
             return false;
         }
 
-        private void loadSharedPreferences(){
-            /*
-            Transaction writeTransaction;
-            Log.d("BGC", "Loading shared preferences.");
-
-            try {
-                Log.d("LSP", "Attempting to open file output");
-                OutputStream outputStream = openFileOutput("transactions.txt", MODE_PRIVATE);
-                Log.d("LSP", "Opened file output");
-                OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-                BufferedWriter bufferedWriter = new BufferedWriter(writer);
-
-
+        private void READSPTRANSACTIONS(){
+            try{
+                Transaction writeTransaction;
+                BufferedWriter writer = new BufferedWriter(new FileWriter(new File(getExternalFilesDir(null),"transactions.txt")));
 
                 Map<String,?> keys = sharedPreferences.getAll();
 
@@ -86,31 +77,24 @@ public class BackgroundClass extends Application {
                     if(!entry.getKey().equals("index"))
                     {
                         writeTransaction = parseTransaction(entry.getValue().toString(),entry.getKey());
-                        bufferedWriter.newLine();
-                        Log.d("LSP", "Writing to output: " + writeTransaction.toString());
-                        bufferedWriter.write(writeTransaction.toString()+"|"+writeTransaction.getKey());
+                        writer.newLine();
+                        writer.write(writeTransaction.toString()+"|"+writeTransaction.getKey());
                     }
                 }
-                bufferedWriter.close();
+
                 writer.close();
-                outputStream.close();
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
+            catch (Exception e){ e.printStackTrace();}
+        }
+
+        private void loadSharedPreferences(){
+
+           //READSPTRANSACTIONS();
+
             try {
-                InputStream inputStream = openFileInput("transactions.txt");
-                Log.d("LSP", "Opened input.");
                 Transaction newTransaction;
-                if ( inputStream != null ) {
-                    Log.d("LSP", "inputStream != null");
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    if(inputStreamReader == null) Log.d("LSP", "NULL INPUTSTREAMREADER");
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    if(bufferedReader == null) Log.d("LSP", "NULL BUFFEREDREADER");
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(getExternalFilesDir(null),"transactions.txt")));
                     String receiveString = "";
-                    Log.d("LSP", "Starting reading");
 
                     while ( (receiveString = bufferedReader.readLine()) != null ) {
                         Log.d("LSP", "Read: " + receiveString);
@@ -125,9 +109,7 @@ public class BackgroundClass extends Application {
                         }
                     }
                     bufferedReader.close();
-                    inputStreamReader.close();
-                    inputStream.close();
-                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -191,14 +173,10 @@ public class BackgroundClass extends Application {
         allTransactions.add(transaction);
         index++;
         try {
-            OutputStream outputStream = openFileOutput("transactions.txt", MODE_APPEND);
-            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(getExternalFilesDir(null),"transactions.txt"),true));
             bufferedWriter.newLine();
-            bufferedWriter.write(transaction.toString()+"|"+transaction.getKey());
+            bufferedWriter.write(transaction.toString() + "|" + transaction.getKey());
             bufferedWriter.close();
-            writer.close();
-            outputStream.close();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -212,9 +190,40 @@ public class BackgroundClass extends Application {
         */
     }
     public void remove(Transaction transaction){
+        String key = transaction.getKey();
         allTransactions.remove(getTransaction(transaction.getKey()));
-        sharedPreferencesEditor.remove(transaction.getKey());
-        sharedPreferencesEditor.commit();
+
+        File inputFile = new File(getExternalFilesDir(null),"transactions.txt");
+        File tempFile = new File(getExternalFilesDir(null),"TempFile.txt");
+
+
+        Log.d("REMOVE", "Key is: " + key);
+        String currentLine = "";
+        String[] splitString;
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+
+            while((currentLine = bufferedReader.readLine()) != null) {
+                if(currentLine.length()>0) {
+                    Log.d("REMOVE", "READ: " + currentLine);
+                    splitString = currentLine.split("\\|");
+                    if(splitString[6].equals(key)) continue;
+                    bufferedWriter.write(currentLine + System.getProperty("line.separator"));
+                }
+            }
+
+            bufferedWriter.close();
+            bufferedReader.close();
+            boolean successful = tempFile.renameTo(inputFile);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
     public ArrayList<Transaction> getAllTransactions(){
         return allTransactions;

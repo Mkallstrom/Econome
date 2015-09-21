@@ -150,7 +150,7 @@ public class EditorActivity extends ActionBarActivity {
         boolean newRepeating = repeatingBox.isChecked();
         String newFrequency = frequencySpinner.getSelectedItem().toString();
         Transaction newTransactionItem = new Transaction(newAmount, newCategory, newDate, newRepeating, newFrequency, newType, key);
-        bgc.remove(newTransactionItem);
+        if(key != null) bgc.remove(newTransactionItem);
         bgc.add(newTransactionItem.getAmount(),newTransactionItem.getCategory(),newTransactionItem.getDate(),newTransactionItem.isRepeating(),newTransactionItem.getFrequency(),newTransactionItem.getType());
         finish();
     }
