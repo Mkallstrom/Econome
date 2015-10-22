@@ -181,13 +181,9 @@ public class BackgroundClass extends Application {
         catch (Exception e) {
             e.printStackTrace();
         }
-        /*
-        sharedPreferencesEditor.putString(Integer.toString(index), transaction.toString());
         sharedPreferencesEditor.remove("index");
-        index++;
         sharedPreferencesEditor.putString("index", Integer.toString(index));
         sharedPreferencesEditor.commit();
-        */
     }
     public void remove(Transaction transaction){
         String key = transaction.getKey();
@@ -238,6 +234,47 @@ public class BackgroundClass extends Application {
 
     public ArrayList getArrayListMonths() {
         return arrayListMonths;
+    }
+
+    public void fixIndices(){
+        Log.d("Fix", "Running fixIndices()");
+        File inputFile = new File(getExternalFilesDir(null),"transactions.txt");
+        File tempFile = new File(getExternalFilesDir(null),"TempFile.txt");
+
+        String currentLine = "";
+        String[] splitString;
+        int newIndex = 0;
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+
+            while((currentLine = bufferedReader.readLine()) != null) {
+                if(currentLine.length()>0) {
+                    Log.d("FIX", "READ: " + currentLine);
+                    splitString = currentLine.split("\\|");
+                    Transaction newTransaction = new Transaction(Float.parseFloat(splitString[0]),splitString[1],splitString[2],Boolean.valueOf(splitString[3]),splitString[4],TransactionType.valueOf(splitString[5]), Integer.toString(newIndex));
+                    newIndex++;
+                    bufferedWriter.write(newTransaction.toString() + "|" + newTransaction.getKey() + System.getProperty("line.separator"));
+                }
+            }
+
+            bufferedWriter.close();
+            bufferedReader.close();
+            inputFile.renameTo(new File(getExternalFilesDir(null), "backupTransactions.txt"));
+            boolean successful = tempFile.renameTo(new File(getExternalFilesDir(null),"transactions.txt"));
+
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        sharedPreferencesEditor.remove("index");
+        sharedPreferencesEditor.putString("index", Integer.toString(newIndex));
+        sharedPreferencesEditor.commit();
+        index = newIndex;
+        allTransactions.clear();
+        loadSharedPreferences();
     }
 
 }

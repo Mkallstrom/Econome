@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="30dp">
+    android:layout_height="100dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp" />
@@ -20,9 +20,10 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/category"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
             android:paddingLeft="10dp"
-            android:layout_toRightOf="@+id/icon" />
+            android:layout_toRightOf="@+id/icon"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 

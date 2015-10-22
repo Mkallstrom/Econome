@@ -57,4 +57,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this,SummaryActivity.class);
         startActivity(intent);
     }
+    public void fixIndices(View view){
+        bgc.fixIndices();
+    }
 }
